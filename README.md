@@ -5,7 +5,7 @@ This guide provides instructions for using Python on research projects. Its purp
 ### Style and Packages 
 
 * For coding style practices, follow the [PEP 8 style guide](https://www.python.org/dev/peps/pep-0008/). 
-    - While you read the style guide and do your best to follow it, once you save the script you can use `flake8`, `pycodestyle_magic`, and 
+    - While you should read the style guide and do your best to follow it, once you save the script you can use `flake8`, `pycodestyle_magic`, and 
     `pycodestyle`. Run `%load_ext pycodestyle_magic` and `%flake8_on`, and each cell will be checked for styling errors upon running. 
 * Use `Pandas` and/or `datatable` for wrangling data. For big data (millions of observations, the efficiency advantages of datatable become important).
 * Use `datetime` for working with dates.
