@@ -47,7 +47,7 @@ When randomizing assignment in a randomized control trial (RCT):
 * It is also good to do a more manual check where you run the full script once, save the resulting data with a different name, then restart R (see instructions below), run it a second time. Then read in both data sets with the random assignment and assert that they are identical.
    
 ## Running scripts 
-Once you complete a Jupyter script, which you might be running line by line. In the menu go to  `kernel` -> `restart and run all` to ensure that the script runs in it's entirety. 
+Once you complete a jupyter script, which you might be running line by line. In the menu go to  `kernel` -> `restart and run all` to ensure that the script runs in it's entirety. 
 
 ## Reproducibility
 Create a virtual environment to run your project. Use a virtual environment through `venv` (instead of `pyenv`) to manage the packages in a project and avoid conflicts related to package versioning. 
