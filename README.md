@@ -56,7 +56,6 @@ Create a virtual environment to run your project. Use a virtual environment thro
 *  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the packages. 
 
 ## Misc.
-
 Some additional tips.
 
 * Progress bars: `progressbar2` for intensite purposes you can add progress bars through this package. See [examples](https://progressbar-2.readthedocs.io/en/latest/examples.html) here.
