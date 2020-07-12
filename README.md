@@ -12,19 +12,22 @@ This guide provides instructions for using Python on research projects. Its purp
 * Use `Pandas` and/or `datatable` for wrangling data. For big data (millions of observations, the efficiency advantages of datatable become important).
 * Use `datetime` for working with dates.
 * Never use `os.chdir()` or absolute file paths. Instead use relative file paths with the `pyprojroot` package.
+* `pyprojroot` looks for the following files in your root folder (`.git`, `.here`, `*.Rproj`, `requirements.txt`, `setup.py`, `.dvc`, `.spyproject`, `pyproject.toml`, `.idea`, `.vscode`) if you don't have any of them, create a blank file of one in your root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
-* Use `fastreg` from this [Github] (https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
+* Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
 
 ## Folder Structure 
 
-Generally, within the folder where we are doing data analysis, we have:
-* A root folder for the project
-    - If you always open the project from the root folder then the `pyprojroot` package will work for relative filepaths
+Generally, within the folder where we are doing data analysis, our root folder, do all the work from there. If you always open the project from the root folder then the `pyprojroot` package will work for relative filepaths. The other folders within this root are:
 * data - only raw data go in this folder
 * documentation - documentation about the data go in this folder
 * proc - processed data sets go in this folder
+* results - results go in this folder
+  * figures - subfolder for figures
+  * tables - subfolder for tables
 * scripts - code goes in this folder
-    - Number scripts in the order in which they should be run
+  * Number scripts in the order in which they should be run
+  * programs - a subfolder containing functions called by the analysis scripts (if applicable)
 
 ## Master script
 
@@ -41,17 +44,21 @@ Keep a script that lists each script that should be run to go from raw data to f
 ## Randomization
 
 When randomizing assignment in a randomized control trial (RCT):
-* Seed: Use a seed from https://www.random.org/: put Min 1 and Max 100000000, then click Generate, and copy the result into your script at the appropriate place. Towards the top of the script, assign the seed with the line `numpy.random.seed(...) # from random.org` where ... is replaced with the number you got from random.org
-* Use the `randomizelabel` package to assign treatment and control gorups. It's available at this [Github] (https://github.com/btskinner/randomizelabel) link with instructions. 
-* Build a randomization check: create a second variable a second time with a new name, repeating `numpy.random.seed(seed)` immediately before creating the second variable. Then check that the randomization is identical using `df.var1 == df.var2`.
-* It is also good to do a more manual check where you run the full script once, save the resulting data with a different name, then restart R (see instructions below), run it a second time. Then read in both data sets with the random assignment and assert that they are identical.
+* Seed: Use a seed from https://www.random.org/: put Min 1 and Max 100000000, then click Generate, and copy the result into your script at the appropriate place. Towards the top of the script, assign the seed with the line `random.seed(...) # from random.org` where ... is replaced with the number you got from random.org
+* Use the [`randomizelabel`](https://github.com/btskinner/randomizelabel)  package to assign treatment and control groups. 
+* Build a randomization check: create a second variable a second time with a new name, repeating `numpy.random.seed(seed)` immediately before creating the second variable. Then check that the randomization is identical using `assert(df.var1 == df.var2)`.
+* It is also good to do a more manual check where you run the full script once, save the resulting data with a different name, then restart Python (see instructions below), run it a second time. Then read in both data sets with the random assignment and assert that they are identical.
    
 ## Running scripts 
+
 Once you complete a jupyter script, which you might be running line by line. In the menu go to  `kernel` -> `restart and run all` to ensure that the script runs in it's entirety. 
 
 ## Reproducibility
+
 Create a virtual environment to run your project. Use a virtual environment through `venv` (instead of `pyenv`) to manage the packages in a project and avoid conflicts related to package versioning. 
-* `python3 -m venv /path/to/new/virtual/environment` this creates the target director and places a `pyvenv.cfg`. Activate this in command line and install all the packages you need in your script here.  
+* If you are using Anaconda, navigate to the directory of the project in the command line, and type `conda create -n yourenvname python=x.x anaconda`. Activate the environment using `conda activate yourenvname` and `deactivate` will exit the environment.
+* If you are only using Python3, `py -m venv yourenvname`. Activate the environment using `source activate yourenvname` and `deactivate` will exit the environment.
+* Install all the packages necessary for your project in your active virtual environment.
 * In the command line after activating your virtual environment using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
 *  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the packages. 
 
