@@ -20,7 +20,7 @@ This guide provides instructions for using Python on research projects. Its purp
 
 ## Folder structure 
 
-Generally, within the folder where we are doing data analysis, we have the following files and folders. 
+Generally, within the folder where we are doing data analysis (the "root folder"), we have the following files and folders. 
 * .here or setup.py 
   * If you always open the project from the root folder (e.g., by navigating to that folder in the terminal before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
 * data - only raw data go in this folder
