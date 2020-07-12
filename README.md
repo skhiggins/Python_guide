@@ -9,10 +9,12 @@ This guide provides instructions for using Python on research projects. Its purp
     - In Jupyter Notebooks before you write your script you can install three packages `flake8`, `pycodestyle`, and  `pycodestyle_magic`. 
     - If you are in a Jupyter notebook, after importing your files Run `%load_ext pycodestyle_magic` and `%flake8_on` in two blank cells, and each cell afterwards will be checked for styling errors upon running.
     - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called `Real-time code style analysis` this will show bad formatting warnings directly in the editor.   
-* Use `Pandas` and/or `datatable` for wrangling data. For big data (millions of observations, the efficiency advantages of datatable become important).
+* Use `pandas` for wrangling data. 
+    - `[datatable](https://github.com/h2oai/datatable)` mimics R's `data.table` for working with relatively big data (millions of observations), but I haven't tested it.
+    - For truly big data (hundreds of millions or billions of observations) use `[pyspark](https://spark.apache.org/docs/latest/api/python/index.html)`.
 * Use `datetime` for working with dates.
 * Never use `os.chdir()` or absolute file paths. Instead use relative file paths with the `pyprojroot` package.
-* `pyprojroot` looks for the following files in your root folder (`.git`, `.here`, `*.Rproj`, `requirements.txt`, `setup.py`, `.dvc`, `.spyproject`, `pyproject.toml`, `.idea`, `.vscode`) if you don't have any of them, create a blank file of one in your root directory. 
+    - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: `.git`, `.here`, `*.Rproj`, `requirements.txt`, `setup.py`, `.dvc`, `.spyproject`, `pyproject.toml`, `.idea`, `.vscode`. If you don't have any of them, create a blank file with one of these names in your root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
 
