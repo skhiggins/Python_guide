@@ -17,9 +17,9 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
     - For truly big data (hundreds of millions or billions of observations) use [`pyspark`](https://spark.apache.org/docs/latest/api/python/index.html).
 * Use `datetime` for working with dates.
 * Never use `os.chdir()` or absolute file paths. Instead use relative file paths with the `pyprojroot` package.
-    - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your root directory. 
+    - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your project root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
-* Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
+* Use [`fastreg`](https://github.com/iamlemec/fastreg) for fixed effects regressions.
 
 ## Folder structure 
 
