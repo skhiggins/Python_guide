@@ -2,13 +2,16 @@
 
 This guide provides instructions for using Python on research projects. Its purpose is to use with collaborators and research assistants to make code consistent, easier to read, transparent, and reproducible.
 
-## Style and Packages 
+## Style
 
-* For coding style practices, follow the [PEP 8 style guide](https://www.python.org/dev/peps/pep-0008/). 
-    - While you should read the style guide and do your best to follow it, there are packages to help you.
+For coding style practices, follow the [PEP 8 style guide](https://www.python.org/dev/peps/pep-0008/). 
+* While you should read the style guide and do your best to follow it, there are packages to help you.
     - In Jupyter Notebooks before you write your script you can install three packages `flake8`, `pycodestyle`, and  `pycodestyle_magic`. 
     - If you are in a Jupyter notebook, after importing your files Run `%load_ext pycodestyle_magic` and `%flake8_on` in two blank cells, and each cell afterwards will be checked for styling errors upon running.
     - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called `Real-time code style analysis` this will show bad formatting warnings directly in the editor.   
+
+## Packages
+
 * Use `pandas` for wrangling data. 
     - [`datatable`](https://github.com/h2oai/datatable) mimics R's `data.table` for working with relatively big data (millions of observations), but I haven't tested it.
     - For truly big data (hundreds of millions or billions of observations) use [`pyspark`](https://spark.apache.org/docs/latest/api/python/index.html).
@@ -42,15 +45,20 @@ Keep a script that lists each script that should be run to go from raw data to f
 * Use `matplotlib` for graphing. For graphs with colors, use `cubehelix` for a colorblind friendly palette.
 * For reproducible graphs, always specify the `width` and `height` arguments in `savefig`.
 * To see what the final graph looks like, open the file that you save since its appearance will differ from what you see in the Jupyter Notebook.
-* For high resolution, save graphs as .pdf or .svg files. Both of these files have trouble in Google Slides and Powerpoint, but there are workarounds if you want to preserve image quality provided for [pdf](https://support.microsoft.com/en-us/office/insert-pdf-file-content-into-a-powerpoint-presentation-5e7719d5-508c-4c07-a3d4-68123c373a62) and [svg](https://support.google.com/docs/thread/18704826?hl=en)
+* For high resolution, save graphs as .pdf or .eps files. Both of these files have trouble in Google Slides and Powerpoint, but there are workarounds if you want to preserve image quality provided for [pdf](https://support.microsoft.com/en-us/office/insert-pdf-file-content-into-a-powerpoint-presentation-5e7719d5-508c-4c07-a3d4-68123c373a62) and [eps](https://nutsandboltsspeedtraining.com/powerpoint-tutorials/import-eps-files-into-powerpoint/)
+     * I've written a Python function [`crop_eps`](https://github.com/skhiggins/PythonTools/blob/master/crop_eps.py) to crop .eps files for the times when you can't get the cropping just right 
 <!-- * For maps, use the `basemap` package from `matplotlib`, (This has to be installed separately.) A helpful tutorial is available [here] (https://basemaptutorial.readthedocs.io/en/latest/index.html) -->
   
 ## Randomization
 
 When randomizing assignment in a randomized control trial (RCT):
-* Seed: Use a seed from https://www.random.org/: put Min 1 and Max 100000000, then click Generate, and copy the result into your script at the appropriate place. Towards the top of the script, assign the seed with the line `random.seed(...) # from random.org` where ... is replaced with the number you got from random.org
-* Use the [`randomizelabel`](https://github.com/btskinner/randomizelabel)  package to assign treatment and control groups. 
-* Build a randomization check: create a second variable a second time with a new name, repeating `numpy.random.seed(seed)` immediately before creating the second variable. Then check that the randomization is identical using `assert(df.var1 == df.var2)`.
+* Seed: Use a seed from https://www.random.org/: put Min 1 and Max 100000000, then click Generate, and copy the result into your script at the appropriate place. Towards the top of the script, assign the seed with the line 
+  ```r
+  random.seed(...) # from random.org
+  ```
+  where `...` is replaced with the number that you got from [random.org](https://www.random.org/) 
+* Use the `stochatreat` package to assign treatment and control groups. 
+* Build a randomization check: create a second variable a second time with a new name, repeating `random.seed(seed)` immediately before creating the second variable. Then check that the randomization is identical using `assert(df.var1 == df.var2)`.
 * It is also good to do a more manual check where you run the full script once, save the resulting data with a different name, then restart Python (see instructions below), run it a second time. Then read in both data sets with the random assignment and assert that they are identical.
    
 ## Running scripts 
@@ -66,7 +74,17 @@ Create a virtual environment to run your project. Use a virtual environment thro
 * In the command line after activating your virtual environment using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
 *  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the packages. 
 
+## Version control
+
+Instructions coming soon.
+
+
+## GitHub
+
+Instructions coming soon.
+
 ## Misc.
+
 Some additional tips.
 
-* Progress bars: `progressbar2` for intensite purposes you can add progress bars through this package. See [examples](https://progressbar-2.readthedocs.io/en/latest/examples.html) here.
+* Progress bars: Use the package `progressbar2` for intensive tasks to monitor progress. See [examples](https://progressbar-2.readthedocs.io/en/latest/examples.html) here.
