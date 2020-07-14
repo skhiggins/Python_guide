@@ -74,14 +74,11 @@ Create a virtual environment to run your project. Use a virtual environment thro
 * In the command line after activating your virtual environment using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
 *  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the packages. 
 
+<!---
 ## Version control
 
-Instructions coming soon.
-
-
-## GitHub
-
-Instructions coming soon.
+### GitHub
+--->
 
 ## Misc.
 
