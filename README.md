@@ -23,9 +23,9 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 
 ## Folder structure 
 
-Generally, within the folder where we are doing data analysis (the "root folder"), we have the following files and folders. 
+Generally, within the folder where we are doing data analysis (the project's "root folder"), we have the following files and folders. 
 * .here or setup.py 
-  * If you always open the project from the root folder (e.g., by navigating to that folder in the terminal before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
+  * If you always open the project from the project's root folder (e.g., by navigating to that folder in the terminal before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
 * data - only raw data go in this folder
 * documentation - documentation about the data go in this folder
 * proc - processed data sets go in this folder
