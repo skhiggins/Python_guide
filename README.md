@@ -17,7 +17,7 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
     - For truly big data (hundreds of millions or billions of observations) use [`pyspark`](https://spark.apache.org/docs/latest/api/python/index.html).
 * Use `datetime` for working with dates.
 * Never use `os.chdir()` or absolute file paths. Instead use relative file paths with the `pyprojroot` package.
-    - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your root directory. 
+    - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your project root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
 * `Pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
  * This can be used in conjunction with `.to_csv` to print the codebook to a text file. 
@@ -34,9 +34,9 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 
 ## Folder structure 
 
-Generally, within the folder where we are doing data analysis (the "root folder"), we have the following files and folders. 
+Generally, within the folder where we are doing data analysis (the project's "root folder"), we have the following files and folders. 
 * .here or setup.py 
-  * If you always open the project from the root folder (e.g., by navigating to that folder in the terminal before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
+  * If you always open the project from the project's root folder (e.g., by navigating to that folder in the terminal with `cd` before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
 * data - only raw data go in this folder
 * documentation - documentation about the data go in this folder
 * proc - processed data sets go in this folder
@@ -176,6 +176,7 @@ Create a virtual environment to run your project. Use a virtual environment thro
 * In the command line after activating your virtual environment using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
 *  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the packages. 
 
+<!---
 ## Version control
 
 ### GitHub
