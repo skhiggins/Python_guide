@@ -17,6 +17,17 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 * Never use `os.chdir()` or absolute file paths. Instead use relative file paths with the `pyprojroot` package.
 * `pyprojroot` looks for the following files in your root folder (`.git`, `.here`, `*.Rproj`, `requirements.txt`, `setup.py`, `.dvc`, `.spyproject`, `pyproject.toml`, `.idea`, `.vscode`) if you don't have any of them, create a blank file of one in your root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
+* `Pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
+ * This can be used in conjunction with `.to_csv` to print the codebook to a text file. 
+```r 
+  import pandas as pd
+  from pyprojroot import here
+
+  # Write codebook to text file
+  data = pd.read\_csv(here('data/raw_data.csv'))
+  data.describe().to\_csv(here('proc/my_codebook.csv'))
+```
+
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
 
 ## Folder Structure 
@@ -76,9 +87,9 @@ Keep a script that lists each script that should be run to go from raw data to f
      ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})
 
   # INPUTS
-  #  here("data", "example.csv") # raw data from XYZ source
+  #  here("./data/example.csv") # raw data from XYZ source
   # OUTPUTS
-  #  here("proc", "example_cleaned.csv") # cleaned 
+  #  here("./proc/example_cleaned.csv") # cleaned 
   
   # Regress Y on X in example data
   if (run_02_ex_reg):
@@ -127,8 +138,13 @@ Keep a script that lists each script that should be run to go from raw data to f
 
 * For small data sets, save as .csv with `pandas.to_csv()` and read with `pandas.read_csv()`. 
 
-* For larger data sets, save as .h5 with `HDFStore()` with the `pytables` package, and read with `open_file()`. 
-
+* For larger data sets, it's easiest to save it with `to_pickle`. For example
+ ```r
+ df.to\_pickle(file_name)  # where to save it, usually as a .pkl
+ # Then you can easily load it back with 
+ df = pd.read\_pickle(file_name)
+ ```
+ 
 ## Randomization
 
 When randomizing assignment in a randomized control trial (RCT):
