@@ -2,6 +2,7 @@
 
 This guide provides instructions for using Python on research projects. Its purpose is to use with collaborators and research assistants to make code consistent, easier to read, transparent, and reproducible.
 
+
 ## Style
 
 For coding style practices, follow the [PEP 8 style guide](https://www.python.org/dev/peps/pep-0008/). 
@@ -26,8 +27,8 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
   from pyprojroot import here
 
   # Write codebook to text file
-  data = pd.read\_csv(here('data/raw_data.csv'))
-  data.describe().to\_csv(here('proc/my_codebook.csv'))
+  data = pd.read_csv(here('data/raw_data.csv'))
+  data.describe().to_csv(here('proc/my_codebook.csv'))
 ```
 
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
