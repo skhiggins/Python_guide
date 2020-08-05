@@ -58,16 +58,74 @@ Because we often work with large data sets and efficiency is important, I advoca
 The analysis and figure/table scripts should not change the data sets at all (no pivoting from wide to long or adding new variables); all changes to the data should be made in the data cleaning scripts. The figure/table scripts should not run the regressions or perform other analysis; that should be done in the analysis scripts. This way, if you need to add a robustness check, you don't necessarily have to rerun all the data cleaning code (unless the robustness check requires defining a new variable). If you need to make a formatting change to a figure, you don't have to rerun all the analysis code (which can take awhile to run on large data sets).
 
 ### Naming scripts
-* Include a 00_run.ipynb script (described below).
+* Include a 00_run.py script (described below).
 * Number scripts in the order in which they should be run, starting with 01.
 * Because a project often uses multiple data sources, I usually include a brief description of the data source being used as the first part of the script name (in the example below, `ex` describes the data source), followed by a description of the action being done (e.g. `dataprep`, `reg`, etc.), with each component of the script name separated by an underscore (`_`).
 
-### 00_run.ipynb script 
+### 00_run.py script 
 
 Keep a script that lists each script that should be run to go from raw data to final results. Under the name of each script should be a brief description of the purpose of the script, as well all the input data sets and output data sets that it uses. Ideally, a user could run the master script to run the entire analysis from raw data to final results (although this may be infeasible for some project, e.g. one with multiple confidential data sets that can only be accessed on separate servers).
    
   ```r
   # Run script for example project
+  
+  # PACKAGES ------------------------------------------------------------------
+  import os
+  import subprocess
+  from pyprojroot import here
+
+  # PRELIMINARIES -------------------------------------------------------------
+  # Control which scripts run
+  run_01_ex_dataprep = 1
+  run_02_ex_reg = 1
+  run_03_ex_table = 1
+  run_04_ex_graph = 1
+  program_list = []
+
+
+  # RUN SCRIPTS ---------------------------------------------------------------
+  if(run_01_ex_dataprep):
+    program_list.append(here('./scripts/run_01_ex_dataprep.py'))
+
+  # INPUTS
+  #  here("./data/example.csv") # raw data from XYZ source
+  # OUTPUTS
+  #  here("./proc/example_cleaned.csv") # cleaned 
+
+  if(run_02_ex_reg):
+    program_list.append(here('./scripts/run_02_ex_reg.py')) 
+
+  # INPUTS
+  #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
+  # OUTPUTS 
+  #  here("./proc/ex_fixest.csv") # fixest object from feols regression
+  
+  if(run_03_ex_table):
+    program_list.append(here('./scripts/run_03_ex_table.py'))
+  
+  # Create table of regression results
+  # INPUTS 
+  #  here("./proc/ex_fixest.csv") # 02_ex_reg.py
+  # OUTPUTS
+  #  here("./results/tables/ex_fixest_table.tex") # tex of table for paper
+
+  if(run_04_ex_graph):
+    program_list.append(here('./scripts/run_04_ex_graph.py')) 
+
+  # Create scatterplot of Y and X with local polynomial fit
+  # INPUTS
+  #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
+  # OUTPUTS
+  #  here("./results/tables/ex_scatter.eps") # figure    
+
+
+  for program in program_list:
+    subprocess.call(['python', 'program'])
+    print("Finished:" + program)
+  ```
+ ```r
+
+  # Run script for example project (for.ipynb files)
   
   # PACKAGES ------------------------------------------------------------------
   import nbformat
@@ -128,7 +186,6 @@ Keep a script that lists each script that should be run to go from raw data to f
   # OUTPUTS
   #  here("./results/tables/ex_scatter.eps") # figure
   ```
-
 ## Graphing
 
 * Use `matplotlib` for graphing. For graphs with colors, use `cubehelix` for a colorblind friendly palette.
@@ -144,9 +201,10 @@ Keep a script that lists each script that should be run to go from raw data to f
 
 * For larger data sets, it's easiest to save it with `to_pickle`. For example
  ```r
- df.to\_pickle(file_name)  # where to save it, usually as a .pkl
+ import pandas as pd
+ df.to_pickle(file_name)  # where to save it, usually as a .pkl
  # Then you can easily load it back with 
- df = pd.read\_pickle(file_name)
+ df = pd.read_pickle(file_name)
  ```
  
 ## Randomization
