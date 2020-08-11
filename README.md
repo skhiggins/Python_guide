@@ -199,9 +199,7 @@ Keep a script that lists each script that should be run to go from raw data to f
 ## Saving files
 
 * For small data sets, save as .csv with `pandas.to_csv()` and read with `pandas.read_csv()`. 
-
 * For larger data sets, save with `pandas.to_pickle()` using a .pkl file extension, and read with `pandas.read_pickle()`. 
-
 * For truly big data sets (hundreds of millions or billions of observations), use `write.parquet()` and `read.parquet()` from `pyspark.sql`.
  
 ## Randomization
