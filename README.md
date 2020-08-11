@@ -200,20 +200,17 @@ Keep a script that lists each script that should be run to go from raw data to f
 
 * For small data sets, save as .csv with `pandas.to_csv()` and read with `pandas.read_csv()`. 
 
-* For larger data sets, it's easiest to save it with `to_pickle`. For example
- ```r
- import pandas as pd
- df.to_pickle(file_name)  # where to save it, usually as a .pkl
- # Then you can easily load it back with 
- df = pd.read_pickle(file_name)
- ```
+* For larger data sets, save with `pandas.to_pickle()` using a .pkl file extension, and read with `pandas.read_pickle()`. 
+
+* For truly big data sets (hundreds of millions or billions of observations), use `write.parquet()` and `read.parquet()` from `pyspark.sql`.
  
 ## Randomization
 
 When randomizing assignment in a randomized control trial (RCT):
 * Seed: Use a seed from https://www.random.org/: put Min 1 and Max 100000000, then click Generate, and copy the result into your script at the appropriate place. Towards the top of the script, assign the seed with the line 
   ```r
-  random.seed(...) # from random.org
+  seed = ... # from random.org
+  random.seed(seed)
   ```
   where `...` is replaced with the number that you got from [random.org](https://www.random.org/) 
 * Use the `stochatreat` package to assign treatment and control groups. 
