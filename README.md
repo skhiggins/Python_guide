@@ -121,72 +121,21 @@ Keep a script that lists each script that should be run to go from raw data to f
 
 
   for program in program_list:
-    subprocess.call(['python', 'program'])
-    print("Finished:" + program)
-  ```
- ```r
+    subprocess.call(['python', program])
+    print("Finished:" + str(program))
 
-  # Run script for example project (for.ipynb files)
-  
-  # PACKAGES ------------------------------------------------------------------
+  # If using .ipynb files, instead of using the subprocess 'call' method       # instead use nbformat and nbconvert and replace the subprocess.call loop    # with the below one
   import nbformat
   from nbconvert.preprocessors import ExecutePreprocessor
-  from pyprojroot import here
+   for program in program_list:
+    with open(program) as f:
+      nb = nbformat.read(f, as_version=1)
+      ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
+      ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})
+    print("Finished:" + str(program))
 
-  # PRELIMINARIES -------------------------------------------------------------
-  # Control which scripts run
-  run_01_ex_dataprep = 1
-  run_02_ex_reg = 1
-  run_03_ex_table = 1
-  run_04_ex_graph = 1
-  
-  # RUN SCRIPTS ---------------------------------------------------------------
-  
-  # Read and clean example data
-  if (run_01_ex_dataprep):
-     with open(here('./scripts/run_01_ex_dataprep.ipynb')) as f:
-        nb = nbformat.read(f, as_version=1)
-     ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
-     ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})
-
-  # INPUTS
-  #  here("./data/example.csv") # raw data from XYZ source
-  # OUTPUTS
-  #  here("./proc/example_cleaned.csv") # cleaned 
-  
-  # Regress Y on X in example data
-  if (run_02_ex_reg):
-     with open(here('./scripts/run_02_ex_reg.ipynb')) as f:
-        nb = nbformat.read(f, as_version=1)
-     ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
-     ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})  
-  # INPUTS
-  #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.ipynb
-  # OUTPUTS 
-  #  here("./proc/ex_fixest.csv") # fixest object from feols regression
-  
-  # Create table of regression results
- if (run_03_ex_table):
-     with open(here('./scripts/run_03_ex_table.ipynb')) as f:
-        nb = nbformat.read(f, as_version=1)
-     ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
-     ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})   
-  # INPUTS 
-  #  here("./proc/ex_fixest.csv") # 02_ex_reg.ipynb
-  # OUTPUTS
-  #  here("./results/tables/ex_fixest_table.tex") # tex of table for paper
-  
-  # Create scatterplot of Y and X with local polynomial fit
-  if (run_04_ex_graph):
-     with open(here('./scripts/run_04_ex_graph.ipynb')) as f:
-        nb = nbformat.read(f, as_version=1)
-     ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
-     ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})  
-  # INPUTS
-  #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.ipynb
-  # OUTPUTS
-  #  here("./results/tables/ex_scatter.eps") # figure
   ```
+
 ## Graphing
 
 * Use `matplotlib` for graphing. For graphs with colors, use `cubehelix` for a colorblind friendly palette.
