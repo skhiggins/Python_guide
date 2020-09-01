@@ -78,21 +78,21 @@ Keep a script that lists each script that should be run to go from raw data to f
 
   # RUN SCRIPTS ---------------------------------------------------------------
   if run_01_ex_dataprep:
-    program_list.append(here('./scripts/run_01_ex_dataprep.py'))
+      program_list.append(here('./scripts/run_01_ex_dataprep.py'))
   # INPUTS
   #  here("./data/example.csv") # raw data from XYZ source
   # OUTPUTS
   #  here("./proc/example_cleaned.csv") # cleaned 
 
   if run_02_ex_reg:
-    program_list.append(here("./scripts/run_02_ex_reg.py")) 
+      program_list.append(here("./scripts/run_02_ex_reg.py")) 
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
   # OUTPUTS 
   #  here("./proc/ex_fixest.csv") # fixest object from feols regression
   
   if run_03_ex_table:
-    program_list.append(here("./scripts/run_03_ex_table.py"))
+      program_list.append(here("./scripts/run_03_ex_table.py"))
   # Create table of regression results
   # INPUTS 
   #  here("./proc/ex_fixest.csv") # 02_ex_reg.py
@@ -100,7 +100,7 @@ Keep a script that lists each script that should be run to go from raw data to f
   #  here("./results/tables/ex_fixest_table.tex") # tex of table for paper
 
   if run_04_ex_graph:
-    program_list.append(here('./scripts/run_04_ex_graph.py')) 
+      program_list.append(here('./scripts/run_04_ex_graph.py')) 
   # Create scatterplot of Y and X with local polynomial fit
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
@@ -108,19 +108,19 @@ Keep a script that lists each script that should be run to go from raw data to f
   #  here("./results/tables/ex_scatter.eps") # figure    
 
   for program in program_list:
-    subprocess.call(['python', program])
-    print("Finished:" + str(program))
+      subprocess.call(['python', program])
+      print("Finished:" + str(program))
   ```
   
-If using .ipynb files, instead of using `subprocess.call()` to run the list of programs in `program_list`, use `nbformat` and `nbconvert` and replace the `subprocess.call()` loop with the following:
+If your scripts are .ipynb rather than .py files, instead of using `subprocess.call()` to run the list of programs in `program_list`, replace the `subprocess.call()` loop with the following:
   ```python
   import nbformat
   from nbconvert.preprocessors import ExecutePreprocessor
   for program in program_list:
       with open(program) as f:
-        nb = nbformat.read(f, as_version=1)
-        ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
-        ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})
+          nb = nbformat.read(f, as_version=1)
+          ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
+          ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})
       print("Finished:" + str(program))
   ```
 
