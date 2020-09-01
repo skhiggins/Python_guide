@@ -58,7 +58,7 @@ The analysis and figure/table scripts should not change the data sets at all (no
 
 Keep a script that lists each script that should be run to go from raw data to final results. Under the name of each script should be a brief description of the purpose of the script, as well all the input data sets and output data sets that it uses. Ideally, a user could run the master script to run the entire analysis from raw data to final results (although this may be infeasible for some project, e.g. one with multiple confidential data sets that can only be accessed on separate servers).
    
-  ```r
+  ```python
   # Run script for example project
   
   # PACKAGES ------------------------------------------------------------------
@@ -113,7 +113,7 @@ Keep a script that lists each script that should be run to go from raw data to f
   ```
   
 If using .ipynb files, instead of using `subprocess.call()` to run the list of programs in `program_list`, use `nbformat` and `nbconvert` and replace the `subprocess.call()` loop with the following:
-  ```
+  ```python
   import nbformat
   from nbconvert.preprocessors import ExecutePreprocessor
   for program in program_list:
@@ -180,3 +180,4 @@ Instructions coming soon.
 Some additional tips.
 
 * Progress bars: Use the package `progressbar2` for intensive tasks to monitor progress. See [examples](https://progressbar-2.readthedocs.io/en/latest/examples.html) here.
+--->
