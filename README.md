@@ -9,7 +9,7 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 * While you should read the style guide and do your best to follow it, there are packages to help you.
     - In Jupyter Notebooks before you write your script you can install three packages `flake8`, `pycodestyle`, and  `pycodestyle_magic`. 
     - If you are in a Jupyter notebook, after importing your files Run `%load_ext pycodestyle_magic` and `%flake8_on` in two blank cells, and each cell afterwards will be checked for styling errors upon running.
-    - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called `Real-time code style analysis`. This will show bad formatting warnings directly in the editor.   
+    - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called `Real-time code style analysis` this will show bad formatting warnings directly in the editor.   
 
 ## Packages
 
@@ -18,16 +18,26 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
     - For truly big data (hundreds of millions or billions of observations) use [`pyspark`](https://spark.apache.org/docs/latest/api/python/index.html).
 * Use `datetime` for working with dates.
 * Never use `os.chdir()` or absolute file paths. Instead use relative file paths with the `pyprojroot` package.
+    - If you have private information on something like Boxcryptor, this would be the only exception to the rule, in that case, note in your file that this line must be changed.
     - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your project root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
-* `pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
+* `Pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
+ * This can be used in conjunction with `.to_csv` to print the codebook to a text file. 
+```r 
+  import pandas as pd
+  from pyprojroot import here
+
+  # Write codebook to text file
+  data = pd.read_csv(here('data/raw_data.csv'))
+  data.describe().to_csv(here('proc/my_codebook.csv'))
+```
 
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
 
 ## Folder structure 
 
 Generally, within the folder where we are doing data analysis (the project's "root folder"), we have the following files and folders. 
-* .here or setup.py 
+* .here, .git,  or setup.py 
   * If you always open the project from the project's root folder (e.g., by navigating to that folder in the terminal with `cd` before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
 * data - only raw data go in this folder
 * documentation - documentation about the data go in this folder
@@ -38,6 +48,7 @@ Generally, within the folder where we are doing data analysis (the project's "ro
 * scripts - code goes in this folder
   * Number scripts in the order in which they should be run
   * programs - a subfolder containing functions called by the analysis scripts (if applicable)
+  * old - a subfolder where old scripts from previous versions are stored if there are major changes to the structure of the project for cleanliness
 
 ## Scripts structure
 
@@ -58,7 +69,7 @@ The analysis and figure/table scripts should not change the data sets at all (no
 
 Keep a script that lists each script that should be run to go from raw data to final results. Under the name of each script should be a brief description of the purpose of the script, as well all the input data sets and output data sets that it uses. Ideally, a user could run the master script to run the entire analysis from raw data to final results (although this may be infeasible for some project, e.g. one with multiple confidential data sets that can only be accessed on separate servers).
    
-  ```python
+  ```r
   # Run script for example project
   
   # PACKAGES ------------------------------------------------------------------
@@ -72,56 +83,59 @@ Keep a script that lists each script that should be run to go from raw data to f
   run_02_ex_reg = 1
   run_03_ex_table = 1
   run_04_ex_graph = 1
-  
-  # Empty list of programs to run
   program_list = []
 
+
   # RUN SCRIPTS ---------------------------------------------------------------
-  if run_01_ex_dataprep:
-      program_list.append(here('./scripts/run_01_ex_dataprep.py'))
+  if(run_01_ex_dataprep):
+    program_list.append(here('./scripts/run_01_ex_dataprep.py'))
+
   # INPUTS
   #  here("./data/example.csv") # raw data from XYZ source
   # OUTPUTS
   #  here("./proc/example_cleaned.csv") # cleaned 
 
-  if run_02_ex_reg:
-      program_list.append(here("./scripts/run_02_ex_reg.py")) 
+  if(run_02_ex_reg):
+    program_list.append(here('./scripts/run_02_ex_reg.py')) 
+
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
   # OUTPUTS 
   #  here("./proc/ex_fixest.csv") # fixest object from feols regression
   
-  if run_03_ex_table:
-      program_list.append(here("./scripts/run_03_ex_table.py"))
+  if(run_03_ex_table):
+    program_list.append(here('./scripts/run_03_ex_table.py'))
+  
   # Create table of regression results
   # INPUTS 
   #  here("./proc/ex_fixest.csv") # 02_ex_reg.py
   # OUTPUTS
   #  here("./results/tables/ex_fixest_table.tex") # tex of table for paper
 
-  if run_04_ex_graph:
-      program_list.append(here('./scripts/run_04_ex_graph.py')) 
+  if(run_04_ex_graph):
+    program_list.append(here('./scripts/run_04_ex_graph.py')) 
+
   # Create scatterplot of Y and X with local polynomial fit
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
   # OUTPUTS
   #  here("./results/tables/ex_scatter.eps") # figure    
 
+
   for program in program_list:
-      subprocess.call(['python', program])
-      print("Finished:" + str(program))
-  ```
-  
-If your scripts are .ipynb rather than .py files, instead of using `subprocess.call()` to run the list of programs in `program_list`, replace the `subprocess.call()` loop with the following:
-  ```python
+    subprocess.call(['python', program])
+    print("Finished:" + str(program))
+
+  # If using .ipynb files, instead of using the subprocess 'call' method       # instead use nbformat and nbconvert and replace the subprocess.call loop    # with the below one
   import nbformat
   from nbconvert.preprocessors import ExecutePreprocessor
-  for program in program_list:
-      with open(program) as f:
-          nb = nbformat.read(f, as_version=1)
-          ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
-          ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})
-      print("Finished:" + str(program))
+   for program in program_list:
+    with open(program) as f:
+      nb = nbformat.read(f, as_version=1)
+      ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
+      ep.preprocess(nb, {'metadata': {'path': here('./scripts')}})
+    print("Finished:" + str(program))
+
   ```
 
 ## Graphing
@@ -130,8 +144,7 @@ If your scripts are .ipynb rather than .py files, instead of using `subprocess.c
 * For reproducible graphs, always specify the `width` and `height` arguments in `savefig`.
 * To see what the final graph looks like, open the file that you save since its appearance will differ from what you see in the Jupyter Notebook.
 * For high resolution, save graphs as .pdf or .eps files. <!-- Both of these files have trouble in Google Slides and Powerpoint, but there are workarounds if you want to preserve image quality provided for [pdf](https://support.microsoft.com/en-us/office/insert-pdf-file-content-into-a-powerpoint-presentation-5e7719d5-508c-4c07-a3d4-68123c373a62) and [eps](https://nutsandboltsspeedtraining.com/powerpoint-tutorials/import-eps-files-into-powerpoint/) -->
-     - I've written a Python function [`crop_eps`](https://github.com/skhiggins/PythonTools/blob/master/crop_eps.py) to crop .eps files for the times when you can't get the cropping just right 
-     - `crop_pdf` coming soon. 
+     * I've written a Python function [`crop_eps`](https://github.com/skhiggins/PythonTools/blob/master/crop_eps.py) to crop .eps files for the times when you can't get the cropping just right 
 * For maps (and working with geospatial data more broadly), use `GeoPandas`.
 
 ## Saving files
@@ -157,7 +170,7 @@ Above I described how data preparation scripts should be separate from analysis 
 
 ## Running scripts 
 
-Once you complete a Jupyter notebook, which you might be running line by line, make sure it runs on a fresh Python session. To do this, use the menus and select  `Kernel` > `Restart and run all` to ensure that the script runs in its entirety. 
+Once you complete a jupyter script, which you might be running line by line. In the menu go to  `kernel` -> `restart and run all` to ensure that the script runs in it's entirety. 
 
 ## Reproducibility
 
@@ -165,7 +178,9 @@ Create a virtual environment to run your project. Use a virtual environment thro
 * If you are using Anaconda, navigate to the directory of the project in the command line, and type `conda create -n yourenvname python=x.x anaconda`. Activate the environment using `conda activate yourenvname` and `deactivate` will exit the environment.
 * If you are only using Python3, `py -m venv yourenvname`. Activate the environment using `source activate yourenvname` and `deactivate` will exit the environment.
 * Install all the packages necessary for your project in your active virtual environment.
-* In the command line after activating your virtual environment using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
+* In the command line after activating your virtual environment in Conda using `conda list --export > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
+* When you are ready to distribute your package to other users, they can easily duplicate your environment and the associated dependencies with conda `create --name <envname> --file requirements.txt.`
+* In the command line after activating your virtual environment in Python3 using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
 *  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the packages. 
 
 <!---
@@ -180,4 +195,3 @@ Instructions coming soon.
 Some additional tips.
 
 * Progress bars: Use the package `progressbar2` for intensive tasks to monitor progress. See [examples](https://progressbar-2.readthedocs.io/en/latest/examples.html) here.
---->
