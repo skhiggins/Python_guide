@@ -22,7 +22,7 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
     - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your project root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
 * `pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
-
+* Use `pipconflictchecker` to make sure there are not dependency conflicts after mass installing packages through pip.
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
 
 ## Folder structure 
@@ -165,12 +165,11 @@ Once you complete a Jupyter notebook, which you might be running line by line, m
 
 Create a virtual environment to run your project. Use a virtual environment through `venv` (instead of `pyenv`) to manage the packages in a project and avoid conflicts related to package versioning. 
 * If you are using Anaconda, navigate to the directory of the project in the command line, and type `conda create -n yourenvname python=x.x anaconda`. Activate the environment using `conda activate yourenvname` and `deactivate` will exit the environment.
-* If you are only using Python3, `py -m venv yourenvname`. Activate the environment using `source activate yourenvname` and `deactivate` will exit the environment.
-* Install all the packages necessary for your project in your active virtual environment.
-* In the command line after activating your virtual environment in Conda using `conda list --export > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
-* When you are ready to distribute your package to other users, they can easily duplicate your environment and the associated dependencies with conda `create --name <envname> --file requirements.txt.`
+* First run `conda install pip` to install pip to your directory. 
+* Final step in Anaconda to install the packages, find your anaconda directory, it should be something like `/anaconda/envs/venv_name/`. Install new packages by using `/anaconda/envs/venv_name/bin/pip install package_name`, this can also be used to install the requirements.txt file. To create a `requirements.txt` file use `pip freeze -l > requirements.txt` 
+* If you are only using Python3, `python3 -m venv yourenvname` will create your environment. Activate the environment using `source activate yourenvname` and `deactivate` will exit the environment.
 * In the command line after activating your virtual environment in Python3 using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
-*  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the packages. 
+*  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the project in Python3. 
 
 <!---
 ## Version control
