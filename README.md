@@ -18,16 +18,17 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
     - For truly big data (hundreds of millions or billions of observations) use [`pyspark`](https://spark.apache.org/docs/latest/api/python/index.html).
 * Use `datetime` for working with dates.
 * Never use `os.chdir()` or absolute file paths. Instead use relative file paths with the `pyprojroot` package.
+    - If you have private information on something like Boxcryptor, this would be the only exception to the rule, in that case, note in your file that this line must be changed.
     - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your project root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
 * `pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
-
+* Use `pipconflictchecker` to make sure there are not dependency conflicts after mass installing packages through pip.
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
 
 ## Folder structure 
 
 Generally, within the folder where we are doing data analysis (the project's "root folder"), we have the following files and folders. 
-* .here or setup.py 
+* .here, .git,  or setup.py 
   * If you always open the project from the project's root folder (e.g., by navigating to that folder in the terminal with `cd` before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
 * data - only raw data go in this folder
 * documentation - documentation about the data go in this folder
@@ -38,6 +39,7 @@ Generally, within the folder where we are doing data analysis (the project's "ro
 * scripts - code goes in this folder
   * Number scripts in the order in which they should be run
   * programs - a subfolder containing functions called by the analysis scripts (if applicable)
+  * old - a subfolder where old scripts from previous versions are stored if there are major changes to the structure of the project for cleanliness
 
 ## Scripts structure
 
@@ -157,16 +159,17 @@ Above I described how data preparation scripts should be separate from analysis 
 
 ## Running scripts 
 
-Once you complete a Jupyter notebook, which you might be running line by line, make sure it runs on a fresh Python session. To do this, use the menus and select  `Kernel` > `Restart and run all` to ensure that the script runs in its entirety. 
+Once you complete a Jupyter notebook, which you might be running line by line, make sure it runs on a fresh Python session. To do this, use the menus and select  `Kernel` > `Restart and run all` to ensure that the script runs in its entirety.
 
 ## Reproducibility
 
 Create a virtual environment to run your project. Use a virtual environment through `venv` (instead of `pyenv`) to manage the packages in a project and avoid conflicts related to package versioning. 
 * If you are using Anaconda, navigate to the directory of the project in the command line, and type `conda create -n yourenvname python=x.x anaconda`. Activate the environment using `conda activate yourenvname` and `deactivate` will exit the environment.
-* If you are only using Python3, `py -m venv yourenvname`. Activate the environment using `source activate yourenvname` and `deactivate` will exit the environment.
-* Install all the packages necessary for your project in your active virtual environment.
-* In the command line after activating your virtual environment using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
-*  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the packages. 
+* First run `conda install pip` to install pip to your directory. 
+* Final step in Anaconda to install the packages, find your anaconda directory, it should be something like `/anaconda/envs/venv_name/`. Install new packages by using `/anaconda/envs/venv_name/bin/pip install package_name`, this can also be used to install the requirements.txt file. To create a `requirements.txt` file use `pip freeze -l > requirements.txt` 
+* If you are only using Python3, `python3 -m venv yourenvname` will create your environment. Activate the environment using `source activate yourenvname` and `deactivate` will exit the environment.
+* In the command line after activating your virtual environment in Python3 using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
+*  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the project in Python3. 
 
 <!---
 ## Version control
@@ -180,4 +183,4 @@ Instructions coming soon.
 Some additional tips.
 
 * Progress bars: Use the package `progressbar2` for intensive tasks to monitor progress. See [examples](https://progressbar-2.readthedocs.io/en/latest/examples.html) here.
---->
+ ---> 
