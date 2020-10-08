@@ -22,14 +22,6 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
     - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your project root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
 * `pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
- * This can be used in conjunction with `.to_csv` to print the codebook to a text file. 
-```python 
-  import pandas as pd
-  from pyprojroot import here
-  # Write codebook to text file
-  data = pd.read_csv(here('data/raw_data.csv'))
-  data.describe().to_csv(here('proc/my_codebook.csv'))
-```
 * Use `pipconflictchecker` to make sure there are not dependency conflicts after mass installing packages through pip.
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
 
