@@ -9,7 +9,7 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 * While you should read the style guide and do your best to follow it, there are packages to help you.
     - In Jupyter Notebooks before you write your script you can install three packages `flake8`, `pycodestyle`, and  `pycodestyle_magic`. 
     - If you are in a Jupyter notebook, after importing your files Run `%load_ext pycodestyle_magic` and `%flake8_on` in two blank cells, and each cell afterwards will be checked for styling errors upon running.
-    - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called `Real-time code style analysis`. This will show bad formatting warnings directly in the editor.   
+    - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called `Real-time code style analysis` this will show bad formatting warnings directly in the editor.   
 
 ## Packages
 
@@ -21,7 +21,15 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
     - If you have private information on something like Boxcryptor, this would be the only exception to the rule, in that case, note in your file that this line must be changed.
     - `pyprojroot` looks for the following files to determine which oflder is your root folder for the project: .git, .here, *.Rproj, requirements.txt, setup.py, .dvc, .spyproject, pyproject.toml, .idea, .vscode. If you don't have any of them, create a blank file with one of these names in your project root directory. 
 * Use `assert` frequently to add programmatic sanity checks in the code
-* `pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
+* `Pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
+ * This can be used in conjunction with `.to_csv` to print the codebook to a text file. 
+```python 
+  import pandas as pd
+  from pyprojroot import here
+  # Write codebook to text file
+  data = pd.read_csv(here('data/raw_data.csv'))
+  data.describe().to_csv(here('proc/my_codebook.csv'))
+```
 * Use `pipconflictchecker` to make sure there are not dependency conflicts after mass installing packages through pip.
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
 
@@ -133,7 +141,6 @@ If your scripts are .ipynb rather than .py files, instead of using `subprocess.c
 * To see what the final graph looks like, open the file that you save since its appearance will differ from what you see in the Jupyter Notebook.
 * For high resolution, save graphs as .pdf or .eps files. <!-- Both of these files have trouble in Google Slides and Powerpoint, but there are workarounds if you want to preserve image quality provided for [pdf](https://support.microsoft.com/en-us/office/insert-pdf-file-content-into-a-powerpoint-presentation-5e7719d5-508c-4c07-a3d4-68123c373a62) and [eps](https://nutsandboltsspeedtraining.com/powerpoint-tutorials/import-eps-files-into-powerpoint/) -->
      - I've written a Python function [`crop_eps`](https://github.com/skhiggins/PythonTools/blob/master/crop_eps.py) to crop .eps files for the times when you can't get the cropping just right 
-     - `crop_pdf` coming soon. 
 * For maps (and working with geospatial data more broadly), use `GeoPandas`.
 
 ## Saving files
