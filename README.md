@@ -9,7 +9,7 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 * While you should read the style guide and do your best to follow it, there are packages to help you.
     - In Jupyter Notebooks before you write your script you can install three packages `flake8`, `pycodestyle`, and  `pycodestyle_magic`. 
     - If you are in a Jupyter notebook, after importing your files Run `%load_ext pycodestyle_magic` and `%flake8_on` in two blank cells, and each cell afterwards will be checked for styling errors upon running.
-    - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called `Real-time code style analysis` this will show bad formatting warnings directly in the editor.   
+    - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called `Real-time code style analysis`. This will show bad formatting warnings directly in the editor.   
 
 ## Packages
 
@@ -141,6 +141,7 @@ If your scripts are .ipynb rather than .py files, instead of using `subprocess.c
 * To see what the final graph looks like, open the file that you save since its appearance will differ from what you see in the Jupyter Notebook.
 * For high resolution, save graphs as .pdf or .eps files. <!-- Both of these files have trouble in Google Slides and Powerpoint, but there are workarounds if you want to preserve image quality provided for [pdf](https://support.microsoft.com/en-us/office/insert-pdf-file-content-into-a-powerpoint-presentation-5e7719d5-508c-4c07-a3d4-68123c373a62) and [eps](https://nutsandboltsspeedtraining.com/powerpoint-tutorials/import-eps-files-into-powerpoint/) -->
      - I've written a Python function [`crop_eps`](https://github.com/skhiggins/PythonTools/blob/master/crop_eps.py) to crop .eps files for the times when you can't get the cropping just right 
+     - `crop_pdf` coming soon.
 * For maps (and working with geospatial data more broadly), use `GeoPandas`.
 
 ## Saving files
@@ -153,7 +154,7 @@ If your scripts are .ipynb rather than .py files, instead of using `subprocess.c
 
 When randomizing assignment in a randomized control trial (RCT):
 * Seed: Use a seed from https://www.random.org/: put Min 1 and Max 100000000, then click Generate, and copy the result into your script at the appropriate place. Towards the top of the script, assign the seed with the line 
-  ```r
+  ```python
   seed = ... # from random.org
   random.seed(seed)
   ```
