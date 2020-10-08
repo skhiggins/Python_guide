@@ -74,8 +74,7 @@ Keep a script that lists each script that should be run to go from raw data to f
   run_02_ex_reg = 1
   run_03_ex_table = 1
   run_04_ex_graph = 1
-  
-  # Empty list of programs to run
+
   program_list = []
 
   # RUN SCRIPTS ---------------------------------------------------------------
