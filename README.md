@@ -24,6 +24,7 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 * `pandas.describe()` can be useful to print a "codebook" of the data, i.e. some summary stats about each variable in a data set. 
 * Use `pipconflictchecker` to make sure there are not dependency conflicts after mass installing packages through pip.
 * Use [`fastreg`](https://github.com/iamlemec/fastreg) for fast sparse regressions, particularly good for high-dimensional fixed effects.
+* Use [`tab`](https://github.com/ryxcommar/pandas_tab/tree/c15ed7cdccb883c7fe3aa36f56a12036cc26063f) for some common data wrangling tasks. `tab` can deal with one-way, two-way tabulation with aggregation. It works similar as `tabulate` in Stata. 
 
 ## Folder structure 
 
