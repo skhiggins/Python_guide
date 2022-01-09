@@ -128,7 +128,7 @@ If your scripts are .ipynb rather than .py files, instead of using `subprocess.c
 
 ## Graphing
 
-* Use `matplotlib` for graphing. For graphs with colors, use `cubehelix` for a colorblind friendly palette.
+* Use `matplotlib` or `seaborn' for graphing. For graphs with colors, use `cubehelix` for a colorblind friendly palette.
 * For reproducible graphs, always specify the `width` and `height` arguments in `savefig`.
 * To see what the final graph looks like, open the file that you save since its appearance will differ from what you see in the Jupyter Notebook or Spyder plots pane.
 * For higher (in fact, infinite) resolution, save graphs as .eps files. (This is better than .pdf given that .eps are editable images, which is sometimes required by journals.)
@@ -158,7 +158,7 @@ Above I described how data preparation scripts should be separate from analysis 
 
 ## Running scripts 
 
-Once you complete a Jupyter notebook, which you might be running line by line, make sure it runs on a fresh Python session. To do this, use the menus and select  `Kernel` > `Restart and run all` to ensure that the script runs in its entirety.
+Once you complete a script or Jupyter notebook, which you might be running line by line, make sure it runs on a fresh Python session. To do this in Jupyter, use the menus and select  `Kernel` > `Restart and run all` to ensure that the script runs in its entirety.
 
 ## Reproducibility
 
