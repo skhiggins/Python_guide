@@ -28,7 +28,7 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 
 ## Folder structure 
 
-Generally, within the folder where we are doing data analysis (the project's "root folder"), we have the following files and folders. 
+Generally, within a project folder, we have a subfolder called `analysis` where we are doing data analysis (and other sub-folders like `paper` where the paper draft is saved). Within the `analysis` subfolder, we have:
 * .here, .git,  or setup.py 
   * If you always open the project from the project's root folder (e.g., by navigating to that folder in the terminal with `cd` before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
 * data - only raw data go in this folder
@@ -128,7 +128,7 @@ If your scripts are .ipynb rather than .py files, instead of using `subprocess.c
 
 ## Graphing
 
-* Use `matplotlib` or `seaborn' for graphing. For graphs with colors, use `cubehelix` for a colorblind friendly palette.
+* Use `matplotlib` or `seaborn` for graphing. For graphs with colors, use `cubehelix` for a colorblind friendly palette.
 * For reproducible graphs, always specify the `width` and `height` arguments in `savefig`.
 * To see what the final graph looks like, open the file that you save since its appearance will differ from what you see in the Jupyter Notebook or Spyder plots pane.
 * For higher (in fact, infinite) resolution, save graphs as .eps files. (This is better than .pdf given that .eps are editable images, which is sometimes required by journals.)
@@ -149,7 +149,7 @@ When randomizing assignment in a randomized control trial (RCT):
   seed = ... # from random.org
   random.seed(seed)
   ```
-  where `...` is replaced with the number that you got from [random.org](https://www.random.org/) 
+  where `...` is replaced with the number that you got from [random.org](https://www.random.org/).
 * Use the `stochatreat` package to assign treatment and control groups. 
 * Build a randomization check: create a second variable a second time with a new name, repeating `random.seed(seed)` immediately before creating the second variable. Then check that the randomization is identical using `assert(df.var1 == df.var2)`.
 * It is also good to do a more manual check where you run the full script once, save the resulting data with a different name, then restart Python (see instructions below), run it a second time. Then read in both data sets with the random assignment and assert that they are identical.
