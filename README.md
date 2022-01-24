@@ -56,7 +56,8 @@ The analysis and figure/table scripts should not change the data sets at all (no
 ### Naming scripts
 * Include a 00_run.py script (described below).
 * Because a project often uses multiple data sources, I usually include a brief description of the data source being used as the first part of the script name (in the example below, `ex` describes the data source), followed by a description of the action being done (e.g. `dataprep`, `reg`, etc.), with each component of the script name separated by an underscore (`_`).
-* Number scripts in the order in which they should be run, starting with 01. In 00_run.py, the objects should be called run_01_ex_dataprep because objects cannot start with a number but the names of the scripts themselves should be for example 01_ex_dataprep.py, not run_01_ex_dataprep.py. 
+* Number scripts in the order in which they should be run, starting with 01. 
+<!-- In 00_run.py, the objects should be called run_01_ex_dataprep because objects cannot start with a number but the names of the scripts themselves should be for example 01_ex_dataprep.py, not run_01_ex_dataprep.py. -->
 
 ### 00_run.py script 
 
@@ -92,15 +93,15 @@ Keep a script that lists each script that should be run to go from raw data to f
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
   # OUTPUTS 
-  #  here("./proc/ex_fixest.csv") # fixest object from feols regression
+  #  here("./proc/ex_results.csv") # regression results
   
   if run_03_ex_table:
       program_list.append(here("./scripts/03_ex_table.py"))
   # Create table of regression results
   # INPUTS 
-  #  here("./proc/ex_fixest.csv") # 02_ex_reg.py
+  #  here("./proc/ex_results.csv") # 02_ex_reg.py
   # OUTPUTS
-  #  here("./results/tables/ex_fixest_table.tex") # tex of table for paper
+  #  here("./results/tables/ex_table.tex") # tex of table for paper
 
   if run_04_ex_graph:
       program_list.append(here('./scripts/04_ex_graph.py')) 
