@@ -55,12 +55,12 @@ The analysis and figure/table scripts should not change the data sets at all (no
 
 ### Naming scripts
 * Include a 00_run.py script (described below).
-* Number scripts in the order in which they should be run, starting with 01.
 * Because a project often uses multiple data sources, I usually include a brief description of the data source being used as the first part of the script name (in the example below, `ex` describes the data source), followed by a description of the action being done (e.g. `dataprep`, `reg`, etc.), with each component of the script name separated by an underscore (`_`).
+* Number scripts in the order in which they should be run, starting with 01. In 00_run.py, the objects should be called run_01_ex_dataprep because objects cannot start with a number but the names of the scripts themselves should be for example 01_ex_dataprep.py, not run_01_ex_dataprep.py. 
 
 ### 00_run.py script 
 
-Keep a script that lists each script that should be run to go from raw data to final results. Under the name of each script should be a brief description of the purpose of the script, as well all the input data sets and output data sets that it uses. Ideally, a user could run the master script to run the entire analysis from raw data to final results (although this may be infeasible for some project, e.g. one with multiple confidential data sets that can only be accessed on separate servers).
+Keep a script that lists each script that should be run to go from raw data to final results. Under the name of each script should be a brief description of the purpose of the script, as well all the input data sets and output data sets that it uses. Ideally, a user could run the master script to run the entire analysis from raw data to final results (although this may be infeasible for some project, e.g. one with multiple confidential data sets that can only be accessed on separate servers). 
    
   ```python
   # Run script for example project
@@ -81,21 +81,21 @@ Keep a script that lists each script that should be run to go from raw data to f
 
   # RUN SCRIPTS ---------------------------------------------------------------
   if run_01_ex_dataprep:
-      program_list.append(here('./scripts/run_01_ex_dataprep.py'))
+      program_list.append(here('./scripts/01_ex_dataprep.py'))
   # INPUTS
   #  here("./data/example.csv") # raw data from XYZ source
   # OUTPUTS
   #  here("./proc/example_cleaned.csv") # cleaned 
 
   if run_02_ex_reg:
-      program_list.append(here("./scripts/run_02_ex_reg.py")) 
+      program_list.append(here("./scripts/02_ex_reg.py")) 
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
   # OUTPUTS 
   #  here("./proc/ex_fixest.csv") # fixest object from feols regression
   
   if run_03_ex_table:
-      program_list.append(here("./scripts/run_03_ex_table.py"))
+      program_list.append(here("./scripts/03_ex_table.py"))
   # Create table of regression results
   # INPUTS 
   #  here("./proc/ex_fixest.csv") # 02_ex_reg.py
@@ -103,7 +103,7 @@ Keep a script that lists each script that should be run to go from raw data to f
   #  here("./results/tables/ex_fixest_table.tex") # tex of table for paper
 
   if run_04_ex_graph:
-      program_list.append(here('./scripts/run_04_ex_graph.py')) 
+      program_list.append(here('./scripts/04_ex_graph.py')) 
   # Create scatterplot of Y and X with local polynomial fit
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
