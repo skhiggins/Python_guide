@@ -172,6 +172,27 @@ Create a virtual environment to run your project. Use a virtual environment thro
 * In the command line after activating your virtual environment in Python3 using `pip freeze > requirements.txt` will create a text document of the packages in the environment to include in your project directory.
 *  `pip install -r requirements.txt` in a virtual environment will install all the required packages for the project in Python3. 
 
+## Misc. 
+* Do not ignore `SettingWithCopyWarning`. See more detailed [explanations](https://www.dataquest.io/blog/settingwithcopywarning/) here. There are two main reasons for this warning: chained assignment and hidden chaining. 
+    - Chained assignment: when you want to assign a value to a column in a dataframe, do not type 
+    ``` python
+    country_df[country_df.country == "USA"]["state"] = "Illinois"
+    ```
+    intsead, you should type 
+
+    ```python
+    country_df.loc[country_df.country=="USA", "state"] = "Illinois"
+    ```
+    - Hidden chaining: if you want to create a dataframe from another dataframe based on some conditions and you are pretty sure that you do not want to change the value of the original dataframe(`country_df`) in the future analysis, you should not type
+    ```python
+    new_country_df = country_df[country_df.country == "USA"]
+    ```
+    instead, you should type
+    ```python
+    new_country_df = country_df[country_df.country == "USA"].copy()
+    ```
+
+
 <!---
 ## Version control
 
