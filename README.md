@@ -32,6 +32,7 @@ For coding style practices, follow the [PEP 8 style guide](https://www.python.or
 Generally, within a project folder, we have a subfolder called `analysis` where we are doing data analysis (and other sub-folders like `paper` where the paper draft is saved). Within the `analysis` subfolder, we have:
 * .here, .git,  or setup.py 
   * If you always open the project from the project's root folder (e.g., by navigating to that folder in the terminal with `cd` before running the command `jupter-lab` to open Jupyter in your browser), then the `pyprojroot` package will work for relative filepaths. 
+  * In Spyder, you can associate a given directory with a `project`. You can use `pyprojroot` after you specifying a project. More details can be found [here](https://docs.spyder-ide.org/current/panes/projects.html). 
 * data - only raw data go in this folder
 * documentation - documentation about the data go in this folder
 * proc - processed data sets go in this folder
