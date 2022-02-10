@@ -9,11 +9,11 @@ Also see my [R Guide](https://github.com/skhiggins/R_guide) and [Stata Guide](ht
 For coding style practices, follow the [PEP 8 style guide](https://www.python.org/dev/peps/pep-0008/). 
 - While you should read the style guide and do your best to follow it, there are tools to help you.
     - In Jupyter notebooks, first install `flake8`, `pycodestyle`, and  `pycodestyle_magic`. Then include 
-    ```python
-    %load_ext pycodestyle_magic
-    %flake8_on
-    ```
-    in a blank cell at the top of your script, and each cell afterwards will be checked for styling errors upon running.
+        ```python
+        %load_ext pycodestyle_magic
+        %flake8_on
+        ```
+        in a blank cell at the top of your script, and each cell afterwards will be checked for styling errors upon running.
     - In Spyder go to Tools > Preferences > Editor > Code Introspection/Analysis and activate the option called "Real-time code style analysis". After doing so, Spyder will show bad formatting warnings directly in the editor.   
 
 ## Packages
