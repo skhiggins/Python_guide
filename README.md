@@ -66,7 +66,9 @@ The analysis and figure/table scripts should not change the data sets at all (no
 ### 00_run.py script 
 
 Keep a script that lists each script that should be run to go from raw data to final results. Under the name of each script should be a brief description of the purpose of the script, as well all the input data sets and output data sets that it uses. Ideally, a user could run the master script to run the entire analysis from raw data to final results (although this may be infeasible for some project, e.g. one with multiple confidential data sets that can only be accessed on separate servers). 
-   
+
+Also, consider adding a `print_performance` function to your `"00_run.py"`. You can write a `print_performance.py` file and store it in a seperate folder along with other self-written programs, so that you can use it in multiple scripts. We included an example of `print_performance.py` in this repo. The `time_stamp.py` is designed to use along with `print_performance.py` or for logging purposes. It appended a time stamp in the format of "YYYYMMDD_hhmmss" to the file name, e.g. "01_ex_dataprep_performance_20220101_200000.txt" (The performance of "01_ex_dataprep", started running at 20:00:00 on 1/1/2022).
+
   ```python
   # Run script for example project
   
@@ -74,6 +76,14 @@ Keep a script that lists each script that should be run to go from raw data to f
   import os
   import subprocess
   from pyprojroot import here
+
+  # Add to the system path the directory for your self-written functions
+  import sys
+  programs_path = str(here('./programs'))  
+  sys.path.append(programs_path)
+
+  from time_stamp import time_stamp
+  from print_performance import print_performance
 
   # PRELIMINARIES -------------------------------------------------------------
   # Control which scripts run
@@ -83,10 +93,12 @@ Keep a script that lists each script that should be run to go from raw data to f
   run_04_ex_graph = 1
 
   program_list = []
+  program_name_list = []
 
   # RUN SCRIPTS ---------------------------------------------------------------
   if run_01_ex_dataprep:
       program_list.append(here('./scripts/01_ex_dataprep.py'))
+      program_name_list.append("01_ex_dataprep")
   # INPUTS
   #  here("./data/example.csv") # raw data from XYZ source
   # OUTPUTS
@@ -94,6 +106,7 @@ Keep a script that lists each script that should be run to go from raw data to f
 
   if run_02_ex_reg:
       program_list.append(here("./scripts/02_ex_reg.py")) 
+      program_name_list.append("02_ex_reg")
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
   # OUTPUTS 
@@ -101,6 +114,7 @@ Keep a script that lists each script that should be run to go from raw data to f
   
   if run_03_ex_table:
       program_list.append(here("./scripts/03_ex_table.py"))
+      program_name_list.append("03_ex_table")
   # Create table of regression results
   # INPUTS 
   #  here("./proc/ex_results.csv") # 02_ex_reg.py
@@ -109,15 +123,20 @@ Keep a script that lists each script that should be run to go from raw data to f
 
   if run_04_ex_graph:
       program_list.append(here('./scripts/04_ex_graph.py')) 
+      program_name_list.append("04_ex_graph")
   # Create scatterplot of Y and X with local polynomial fit
   # INPUTS
   #  here("./proc/example_cleaned.csv") # 01_ex_dataprep.py
   # OUTPUTS
-  #  here("./results/tables/ex_scatter.eps") # figure    
+  #  here("./results/tables/ex_scatter.eps") # figure  
 
-  for program in program_list:
-      subprocess.call(['python', program])
+  ts = time_stamp()
+  for program, name in zip(program_list, program_name_list):
+      init_time = time.perf_counter()
+      subprocess.run(['python', program], check = True) # "check=True" tells it to raise exception if it occurs
       print("Finished:" + str(program))
+      print_performance(init_time, file = os.path.join(here("./results/performance"), 
+                                                     f"{name}_performance_{ts}.csv"))
   ```
   
 If your scripts are .ipynb rather than .py files, instead of using `subprocess.call()` to run the list of programs in `program_list`, replace the `subprocess.call()` loop with the following:
@@ -191,3 +210,20 @@ Some additional tips.
 
 - Progress bars: Use the package `progressbar2` for intensive tasks to monitor progress. See [examples](https://progressbar-2.readthedocs.io/en/latest/examples.html) here.
  ---> 
+
+## Some tips for using `here()`
+
+- **General idea:** All files that are read or written in any script should have a full relative filepath using `here()`, and never an absolute file path.
+- **Using `here()` (note that the syntax is different from `rprojroot.here`):**
+  - Make sure there's a file flagging the root directory. The easiest way is to create a `".here"` file in the root directory. Other available formats for the "flag file" including `".git"`, `"*.Rproj"`, etc. See details in the [master file of `pyprojroot.here()'](https://github.com/chendaniely/pyprojroot/blob/master/pyprojroot/pyprojroot.py)
+  - **The Syntax:**
+  
+```{python}
+# Read a file
+data = read.csv(here(./proc/your_data.csv))
+
+# Write a file
+write.csv(os.path.join(here(./proc), "your_data.csv")
+```
+
+- Note that the `here()` function will report "Path doesn't exist" error if you put `"your_data.csv"` inside `here()`, since this file does not exist the moment when `here()` tries to find it.
