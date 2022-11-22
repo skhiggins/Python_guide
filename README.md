@@ -79,11 +79,11 @@ Also, consider adding a `print_performance` function to your `"00_run.py"`. You 
 
   # Add to the system path the directory for your self-written functions
   import sys
-  programs_path = str(here('./programs'))  
-  sys.path.append(programs_path)
-
+  program_path = str(here('scripts/programs')) # the folder where you store additional functions
+  sys.path.append(program_path)
   from time_stamp import time_stamp
   from print_performance import print_performance
+  from is_ipython import is_ipython
 
   # PRELIMINARIES -------------------------------------------------------------
   # Control which scripts run
@@ -133,7 +133,13 @@ Also, consider adding a `print_performance` function to your `"00_run.py"`. You 
   ts = time_stamp()
   for program, name in zip(program_list, program_name_list):
       init_time = time.perf_counter()
-      subprocess.run(['python', program], check = True) # "check=True" tells it to raise exception if it occurs
+      
+      # The advantage of "check_call(...)" is that it print synchronous messages to the terminal while running the program. However, the IPython interpreter is not compatible with it. So I wrote a function "is_ipython()" to check if ths script is running in IPython environment. Please find the code for "is_ipython()" in this repository.
+      if is_ipython():
+        subprocess.run(['python', program], check = True)   # This won't print stdout of the subprograms as it runs
+      else:
+        subprocess.check_call(['python', program], shell=True, stdout=sys.stdout, stderr=subprocess.STDOUT)
+
       print("Finished:" + str(program))
       print_performance(init_time, file = os.path.join(here("./results/performance"), 
                                                      f"{name}_performance_{ts}.csv"))
